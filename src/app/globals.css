@@ -1,5 +1,5 @@
 /* ------------------------------ */
-/* 🌐 Global Styles               */
+/* Global Styles               */
 /* ------------------------------ */
 
 :root {
@@ -33,7 +33,7 @@ body {
 }
 
 /* ------------------------------ */
-/* 💳 Card Container              */
+/*  Card Container              */
 /* ------------------------------ */
 
 .card-container {
@@ -59,4 +59,75 @@ body {
   font-size: 2rem;
   margin-bottom: 24px;
   letter-spacing: -0.5px;
+}
+
+/* ------------------------------ */
+/* Videos Table              */
+/* ------------------------------ */
+/* Page container */
+.table-container {
+  padding: 2rem;
+  background: var(--bg-dark);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Table wrapper */
+.styled-table {
+  width: 100%;
+  max-width: 1100px;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  color: var(--text-main);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+/* Header styling */
+.styled-table thead tr {
+  background: #f2f2f2;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+/* Hover row */
+.styled-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.styled-table tbody tr:hover {
+  background: #fafafa;
+}
+
+/* Button */
+.proc-btn {
+  background: var(--accent);
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: calc(var(--border-radius) / 2);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.proc-btn:hover {
+  background: var(--accent-hover);
+}
+
+.proc-btn:active {
+  transform: scale(0.97);
 }
