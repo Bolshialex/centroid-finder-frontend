@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import {useEffect, useState} from "react";
-import {getThumbnail} from "../../../api/apiFunctions.jsx"
+import { useEffect, useState } from "react";
+import { getThumbnail } from "../../api/apiFunctions";
 import { useRouter } from "next/navigation";
 const router = useRouter();
 const videoName = router.query.video;
@@ -44,9 +44,7 @@ export default function page() {
         onChange={(e) => setColor(e.target.value)}
       />
 
-      <button onClick={handleEyeDropper}>
-        Pick From Screen
-      </button>
+      <button onClick={handleEyeDropper}>Pick From Screen</button>
 
       <span>{color}</span>
     </div>
