@@ -1,6 +1,8 @@
+"use client"
+
 import {useEffect, useState} from "react";
 import {getThumbnail} from "../../../api/apiFunctions.jsx"
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 const router = useRouter();
 const videoName = router.query.video;
 const [thumbnail, setThumbnail] = useState(null);
