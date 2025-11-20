@@ -3,21 +3,20 @@
 import { useEffect, useState } from "react";
 import { getThumbnail } from "../../api/apiFunctions";
 import { useRouter } from "next/navigation";
-const router = useRouter();
-const videoName = router.query.video;
-const [thumbnail, setThumbnail] = useState(null);
 
-useEffect(() => {
-  const loadThumbnail = async () => {
-    const url = await getThumbnail(videoName);
-    setThumbnail(url);
-  };
-
-  loadThumbnail();
-}, []);
-
-export default function page() {
+export default function Page() {
+  const router = useRouter();
+  const videoName = router.query.video;
+  const [thumbnail, setThumbnail] = useState(null);
   const [color, setColor] = useState("#ffffff");
+  useEffect(() => {
+    const loadThumbnail = async () => {
+      const url = await getThumbnail(videoName);
+      setThumbnail(url);
+    };
+
+    loadThumbnail();
+  }, []);
 
   const handleEyeDropper = async () => {
     if (!window.EyeDropper) {
