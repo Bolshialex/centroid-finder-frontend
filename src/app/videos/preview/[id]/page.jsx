@@ -70,6 +70,10 @@ export default function Page() {
         <p>Color Value: {args.color}</p>
       </div>
       <button onClick={handleEyeDropper}>Pick From Screen</button>
+
+      <p>Binarized image here</p>
+      
+      <button>Process with these settings:</button>
     </div>
   );
 }
