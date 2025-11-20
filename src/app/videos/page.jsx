@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 function page() {
   const handleClick = () => {};
@@ -22,7 +23,9 @@ function page() {
             <td>/app/public/videos/vBall.mp4</td>
             <td>0</td>
             <td>
-              <button className="proc-btn">Preview Video</button>
+              <Link href={`/videos/preview/Ball.mp4`}>
+                <button className="proc-btn">Preview Video</button>
+              </Link>
             </td>
           </tr>
         </tbody>
