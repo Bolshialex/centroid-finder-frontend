@@ -2,9 +2,18 @@ import React from "react";
 import Link from "next/link";
 
 function page() {
-  const handleClick = () => {};
   return (
-    <div>
+    <div className="video-container">
+      <div className="instructions">
+        <h1>Video Processing Dashboard</h1>
+        <p>
+          Below is a list of all available videos stored on the server. You can
+          preview each video before starting any processing task. Use the
+          &quot;Preview Video&quot; button to open the video player and verify
+          the file content, format, and duration.
+        </p>
+      </div>
+
       <table className="styled-table">
         <thead>
           <tr>

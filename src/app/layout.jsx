@@ -7,11 +7,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body>
-        <div className="card-container">
-          <h1>Centroid Finder</h1>
-          {children}
-        </div>
+        <div className="card-container">{children}</div>
       </body>
     </html>
   );
