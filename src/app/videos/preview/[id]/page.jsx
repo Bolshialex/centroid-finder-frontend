@@ -3,13 +3,13 @@
 import { useEffect, useState } from "react";
 import { getThumbnail } from "../../../api/apiFunctions";
 import { useRouter } from "next/navigation";
+import { FaArrowRight } from "react-icons/fa";
 
 export default function Page() {
   const router = useRouter();
   const videoName = "Ball.mp4";
   const [thumbnail, setThumbnail] = useState(null);
-  const [color, setColor] = useState("#ffffff");
-  const [threshold, setThreshold] = useState(0);
+
   const [args, setArgs] = useState({ color: "#ffffff", threshold: 0 });
   useEffect(() => {
     const loadThumbnail = async () => {
@@ -45,35 +45,59 @@ export default function Page() {
   };
 
   return (
-    <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+    <div className="preview-container">
       <h1>Preview and Options</h1>
-      <img src={thumbnail} alt={`${videoName} thumbnail`}></img>
-      <input
-        type="color"
-        name="color"
-        id="color"
-        value={args.color}
-        onChange={handleChange}
-      />
-      <div>
-        <label htmlFor="threshold">Adjust threshold:</label>
-        <input
-          type="range"
-          id="threshold"
-          name="threshold"
-          min="0"
-          max="150"
-          value={args.threshold}
-          onChange={handleChange}
-        />
-        <p>Current Value: {args.threshold}</p>
-        <p>Color Value: {args.color}</p>
+      <div className="img-container">
+        <div>
+          <h3>Basic</h3>
+          <img src={thumbnail} alt={`${videoName} thumbnail`} />
+        </div>
+        <div>
+          <h3>Binarized</h3>
+          <img src={thumbnail} alt={`${videoName} thumbnail`} />
+        </div>
       </div>
-      <button onClick={handleEyeDropper}>Pick From Screen</button>
 
-      <p>Binarized image here</p>
-      
-      <button>Process with these settings:</button>
+      <form className="preview-form">
+        <div className="input-container">
+          <div className="input-sub-container">
+            <label htmlFor="threshold">
+              Adjust threshold: {args.threshold}
+            </label>
+            <input
+              type="range"
+              id="threshold"
+              name="threshold"
+              min="0"
+              max="150"
+              value={args.threshold}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="input-sub-container">
+            <p>Color Value: {args.color}</p>
+            <div>
+              <input
+                type="color"
+                name="color"
+                id="color"
+                value={args.color}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="form-btn">
+          <button onClick={handleEyeDropper} className="btn" type="button">
+            Pick From Screen
+          </button>
+          <button className="btn" type="button">
+            Process Video
+            <FaArrowRight />
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

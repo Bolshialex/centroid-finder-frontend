@@ -30,6 +30,30 @@ body {
   min-height: 100vh;
   line-height: 1.5;
 }
+p {
+  margin: 10px;
+}
+
+/* Button */
+.btn {
+  background: var(--accent);
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: calc(var(--border-radius) / 2);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn:hover {
+  background: var(--accent-hover);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
 
 /* ------------------------------ */
 /*  Card Container              */
@@ -47,8 +71,9 @@ body {
   padding: 50px;
   display: flex;
   /* flex-direction: column;
-  justify-content: center;
+  
   align-items: center; */
+  justify-content: center;
   overflow: hidden;
   transition: var(--transition);
 }
@@ -118,27 +143,6 @@ body {
   border-top-right-radius: 12px;
 }
 
-/* Button */
-.proc-btn {
-  background: var(--accent);
-  color: white;
-  padding: 10px 16px;
-  border: none;
-  border-radius: calc(var(--border-radius) / 2);
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.proc-btn:hover {
-  background: var(--accent-hover);
-}
-
-.proc-btn:active {
-  transform: scale(0.97);
-}
-
 /* ------------------------------ */
 /* Intro Page              */
 /* ------------------------------ */
@@ -166,3 +170,122 @@ body {
 .intro-btn:active {
   transform: scale(0.97);
 }
+
+/* ------------------------------ */
+/* Preview Page              */
+/* ------------------------------ */
+.preview-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.img-container {
+  display: flex;
+}
+.img-container > div {
+  text-align: center;
+  margin: 15px;
+  padding: 15px;
+}
+.preview-form {
+}
+.input-container {
+}
+.input-sub-container {
+  text-align: center;
+}
+.input-sub-container > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+.form-btn {
+  display: flex;
+  text-align: center;
+  margin: 20px 0;
+  gap: 25px;
+}
+
+.form-btn > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: var(--accent);
+  border-radius: 8px;
+  font-size: 1rem;
+}
+/* AI Styling */
+
+/* Remove default styles */
+#threshold {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 90%;
+  height: 12px;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Track (Chrome/Safari/Edge) */
+#threshold::-webkit-slider-runnable-track {
+  height: 12px;
+  background: #ddd;
+  border-radius: 6px;
+}
+
+/* Thumb (Chrome/Safari/Edge) */
+#threshold::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  background: var(--accent);
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  margin-top: -5px; /* centers thumb on the track */
+}
+
+/* Hover + active states */
+#threshold:hover::-webkit-slider-thumb,
+#threshold:hover::-moz-range-thumb {
+  transform: scale(1.1);
+}
+
+#threshold:active::-webkit-slider-thumb,
+#threshold:active::-moz-range-thumb {
+  transform: scale(1.2);
+}
+
+/* Base input wrapper */
+#color {
+  -webkit-appearance: none;
+  border: 2px solid black;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  width: inherit;
+  height: 40px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  min-width: 150px;
+}
+
+/* Remove default border in Chrome */
+#color::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+/* Style the actual swatch (Chrome/Edge/Safari) */
+#color::-webkit-color-swatch {
+  border: none;
+  border-radius: 8px;
+}
+
+/* End Of AI Styling */
