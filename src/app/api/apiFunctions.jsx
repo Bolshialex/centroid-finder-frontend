@@ -28,7 +28,23 @@ export async function getThumbnail(video) {
   }
 }
 
-export async function startProcess(params) {}
+export async function startProcess(filename, targetColor, threshold) {
+  try {
+    const queryParams = new URLSearchParams({
+      targetColor: targetColor,
+      threshold: threshold
+    }).toString();
+
+    const url = `${API_URL}/process/${filename}?${queryParams}`;
+
+    const res = await axios.post(url, {}); 
+    
+    return res.data;
+  } catch (error) {
+    console.error("Process failed:", error);
+    throw error;
+  }
+}
 
 export async function getStatus(id) {
   try {

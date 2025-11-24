@@ -188,6 +188,11 @@ p {
   margin: 15px;
   padding: 15px;
 }
+.thumbnail {
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
 .preview-form {
 }
 .input-container {

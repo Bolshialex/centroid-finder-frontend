@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, use } from "react";
 import { getThumbnail } from "../../../api/apiFunctions";
 import { useRouter } from "next/navigation";
 import { FaArrowRight } from "react-icons/fa";
@@ -10,7 +10,9 @@ export default function Page() {
   const videoName = "Ball.mp4";
   const [thumbnail, setThumbnail] = useState(null);
 
-  const [args, setArgs] = useState({ color: "#ffffff", threshold: 0 });
+  const [args, setArgs] = useState({ color: "#ffffff", threshold: 150 });
+  const canvasRef = useRef(null);
+
   useEffect(() => {
     const loadThumbnail = async () => {
       const url = await getThumbnail(videoName);
@@ -18,7 +20,76 @@ export default function Page() {
     };
     loadThumbnail();
   }, []);
+ const hexToRgb = (hex) => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16),
+        }
+      : null;
+  };
 
+  //for binarization
+  useEffect(() => {
+    if (!thumbnail || !canvasRef.current) return;
+
+    const img = new Image();
+
+    // Enables CORS to avoid a tainted canvas without credentials (needed for canvas to work)
+    img.crossOrigin = "Anonymous";
+    
+    img.src = thumbnail;
+    img.onload = () => {
+      const canvas = canvasRef.current;
+      const context = canvas.getContext("2d");
+      
+      // Set canvas dimensions to match image
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      // Draw original image
+      context.drawImage(img, 0, 0);
+
+      // Get image data
+      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imageData.data; 
+      
+      const targetColor = hexToRgb(args.color);
+      if (!targetColor) return;
+      const threshold = parseInt(args.threshold);
+
+      //each pixel is 4 bytes (rgba) so we increment by 4 (we only use the first 3)
+      for (let i = 0; i < data.length; i += 4) { 
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+
+        // Calculate Euclidean distance
+        const distance = Math.sqrt(
+          Math.pow(r - targetColor.r, 2) +
+          Math.pow(g - targetColor.g, 2) +
+          Math.pow(b - targetColor.b, 2)
+        );
+
+        if (distance <= threshold) {
+          // White
+          data[i] = 255;
+          data[i + 1] = 255;
+          data[i + 2] = 255;
+        } else {
+          // Black
+          data[i] = 0;
+          data[i + 1] = 0;
+          data[i + 2] = 0;
+        }
+      }
+
+      // Put processed data back
+      context.putImageData(imageData, 0, 0);
+    };
+  }, [thumbnail, args]);
   const handleEyeDropper = async () => {
     if (!window.EyeDropper) {
       alert("Your browser does not support the EyeDropper API.");
@@ -50,11 +121,11 @@ export default function Page() {
       <div className="img-container">
         <div>
           <h3>Basic</h3>
-          <img src={thumbnail} alt={`${videoName} thumbnail`} />
+          <img className="thumbnail" src={thumbnail} alt={`${videoName} thumbnail`} />
         </div>
         <div>
           <h3>Binarized</h3>
-          <img src={thumbnail} alt={`${videoName} thumbnail`} />
+          <canvas className="thumbnail" ref={canvasRef} />
         </div>
       </div>
 
@@ -69,7 +140,7 @@ export default function Page() {
               id="threshold"
               name="threshold"
               min="0"
-              max="150"
+              max="300"
               value={args.threshold}
               onChange={handleChange}
             />
