@@ -1,7 +1,36 @@
+
+"use client";
 import React from "react";
 import Link from "next/link";
-
+import { getVideos } from "../api/apiFunctions";
+import { useEffect, useState } from "react";
 function page() {
+  const [videos, setVideos] = useState([]);
+
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const data = await getVideos();
+        setVideos(data);
+      } catch (err) {
+        console.error("Failed to fetch videos:", err.message);
+      }
+    };
+
+    fetchVideos();
+  }, []);
+
+  const videoList = videos.map((video, index) => (
+    <tr key={index}>
+      <td>{video}</td>
+      <td>
+       <Link href={`/videos/preview/${encodeURIComponent(video)}`}>
+         <button className="button">Preview Video</button>
+       </Link>
+      </td>
+    </tr>
+  ));
+  
   return (
     <div className="video-container">
       <div className="instructions">
@@ -15,7 +44,7 @@ function page() {
       </div>
 
       <table className="styled-table">
-        <thead>
+        {/* <thead>
           <tr>
             <th>Id</th>
             <th>Video Name</th>
@@ -23,20 +52,16 @@ function page() {
             <th>Duration</th>
             <th>Start Process</th>
           </tr>
+        </thead> */}
+        <thead>
+          <tr>
+            <th>Video Name</th>
+            <th>Preview</th>
+          </tr>
         </thead>
 
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Ball.mp4</td>
-            <td>/app/public/videos/vBall.mp4</td>
-            <td>0</td>
-            <td>
-              <Link href={`/videos/preview/Ball.mp4`}>
-                <button className="proc-btn">Preview Video</button>
-              </Link>
-            </td>
-          </tr>
+          {videoList}
         </tbody>
       </table>
     </div>
