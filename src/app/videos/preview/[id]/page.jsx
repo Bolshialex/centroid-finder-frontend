@@ -5,9 +5,9 @@ import { getThumbnail, startProcess } from "../../../api/apiFunctions";
 import { useRouter } from "next/navigation";
 import { FaArrowRight } from "react-icons/fa";
 
-export default function Page() {
+export default function Page({ params }) {
   const router = useRouter();
-  const videoName = "Ball.mp4";
+  const videoName = use(params).id;
   const [thumbnail, setThumbnail] = useState(null);
 
   const [args, setArgs] = useState({ color: "#ffffff", threshold: 150 });
