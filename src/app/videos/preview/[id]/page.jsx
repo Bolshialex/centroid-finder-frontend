@@ -1,7 +1,7 @@
 "use client";
-
+import Link from "next/link"; 
 import { useEffect, useState, useRef, use } from "react";
-import { getThumbnail } from "../../../api/apiFunctions";
+import { getThumbnail, startProcess } from "../../../api/apiFunctions";
 import { useRouter } from "next/navigation";
 import { FaArrowRight } from "react-icons/fa";
 
@@ -115,6 +115,29 @@ export default function Page() {
     console.log(args);
   };
 
+  const handleProcess = async () => {
+    console.log("Process button clicked");
+    try {
+      const hexColor = args.color.replace("#", "");
+      const threshold = args.threshold;
+      console.log(`Starting process for ${videoName} with color ${hexColor} and threshold ${threshold}`);
+      
+      const response = await startProcess(videoName, hexColor, threshold);
+      console.log("Process response:", response);
+      
+      if (response && response.jobId) {
+        console.log("Redirecting to job status...");
+        router.push(`/videos/jobs/${response.jobId}/status`);
+      } else {
+        console.warn("No jobId in response");
+        alert("Process started but no Job ID returned.");
+      }
+    } catch (error) {
+      console.error("Failed to start process:", error);
+      alert(`Failed to start process: ${error.message || "Unknown error"}`);
+    }
+  };
+
   return (
     <div className="preview-container">
       <h1>Preview and Options</h1>
@@ -163,10 +186,10 @@ export default function Page() {
           <button onClick={handleEyeDropper} className="btn" type="button">
             Pick From Screen
           </button>
-          <button className="btn" type="button">
+          <button onClick={handleProcess} className="btn" type="button">
             Process Video
             <FaArrowRight />
-          </button>
+          </button> 
         </div>
       </form>
     </div>
