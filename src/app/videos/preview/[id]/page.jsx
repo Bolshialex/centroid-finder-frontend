@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link"; 
+import Link from "next/link";
 import { useEffect, useState, useRef, use } from "react";
 import { getThumbnail, startProcess } from "../../../api/apiFunctions";
 import { useRouter } from "next/navigation";
@@ -7,7 +7,8 @@ import { FaArrowRight } from "react-icons/fa";
 
 export default function Page({ params }) {
   const router = useRouter();
-  const videoName = use(params).id;
+  const videoName = decodeURIComponent(use(params).id);
+
   const [thumbnail, setThumbnail] = useState(null);
 
   const [args, setArgs] = useState({ color: "#ffffff", threshold: 150 });
@@ -20,7 +21,7 @@ export default function Page({ params }) {
     };
     loadThumbnail();
   }, []);
- const hexToRgb = (hex) => {
+  const hexToRgb = (hex) => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result
       ? {
@@ -39,12 +40,12 @@ export default function Page({ params }) {
 
     // Enables CORS to avoid a tainted canvas without credentials (needed for canvas to work)
     img.crossOrigin = "Anonymous";
-    
+
     img.src = thumbnail;
     img.onload = () => {
       const canvas = canvasRef.current;
       const context = canvas.getContext("2d");
-      
+
       // Set canvas dimensions to match image
       canvas.width = img.width;
       canvas.height = img.height;
@@ -54,14 +55,14 @@ export default function Page({ params }) {
 
       // Get image data
       const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-      const data = imageData.data; 
-      
+      const data = imageData.data;
+
       const targetColor = hexToRgb(args.color);
       if (!targetColor) return;
       const threshold = parseInt(args.threshold);
 
       //each pixel is 4 bytes (rgba) so we increment by 4 (we only use the first 3)
-      for (let i = 0; i < data.length; i += 4) { 
+      for (let i = 0; i < data.length; i += 4) {
         const r = data[i];
         const g = data[i + 1];
         const b = data[i + 2];
@@ -69,8 +70,8 @@ export default function Page({ params }) {
         // Calculate Euclidean distance
         const distance = Math.sqrt(
           Math.pow(r - targetColor.r, 2) +
-          Math.pow(g - targetColor.g, 2) +
-          Math.pow(b - targetColor.b, 2)
+            Math.pow(g - targetColor.g, 2) +
+            Math.pow(b - targetColor.b, 2)
         );
 
         if (distance <= threshold) {
@@ -120,11 +121,13 @@ export default function Page({ params }) {
     try {
       const hexColor = args.color.replace("#", "");
       const threshold = args.threshold;
-      console.log(`Starting process for ${videoName} with color ${hexColor} and threshold ${threshold}`);
-      
+      console.log(
+        `Starting process for ${videoName} with color ${hexColor} and threshold ${threshold}`
+      );
+
       const response = await startProcess(videoName, hexColor, threshold);
       console.log("Process response:", response);
-      
+
       if (response && response.jobId) {
         console.log("Redirecting to job status...");
         router.push(`/videos/jobs/${response.jobId}/status`);
@@ -144,7 +147,11 @@ export default function Page({ params }) {
       <div className="img-container">
         <div>
           <h3>Basic</h3>
-          <img className="thumbnail" src={thumbnail} alt={`${videoName} thumbnail`} />
+          <img
+            className="thumbnail"
+            src={thumbnail}
+            alt={`${videoName} thumbnail`}
+          />
         </div>
         <div>
           <h3>Binarized</h3>
@@ -189,7 +196,7 @@ export default function Page({ params }) {
           <button onClick={handleProcess} className="btn" type="button">
             Process Video
             <FaArrowRight />
-          </button> 
+          </button>
         </div>
       </form>
     </div>

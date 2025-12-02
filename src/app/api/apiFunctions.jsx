@@ -16,8 +16,9 @@ export async function getVideos() {
 }
 
 export async function getThumbnail(video) {
+  const videoName = video.split("/");
   try {
-    const res = await axios.get(`${API_URL}/thumbnail/${video}`, {
+    const res = await axios.get(`${API_URL}/thumbnail/${videoName[2]}`, {
       responseType: "blob",
     });
 
@@ -32,13 +33,13 @@ export async function startProcess(filename, targetColor, threshold) {
   try {
     const queryParams = new URLSearchParams({
       targetColor: targetColor,
-      threshold: threshold
+      threshold: threshold,
     }).toString();
 
     const url = `${API_URL}/process/${filename}?${queryParams}`;
 
-    const res = await axios.post(url, {}); 
-    
+    const res = await axios.post(url, {});
+
     return res.data;
   } catch (error) {
     console.error("Process failed:", error);

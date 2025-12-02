@@ -1,10 +1,9 @@
-
 "use client";
 import React from "react";
 import Link from "next/link";
 import { getVideos } from "../api/apiFunctions";
 import { useEffect, useState } from "react";
-function page() {
+export default function Page() {
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
@@ -24,13 +23,13 @@ function page() {
     <tr key={index}>
       <td>{video}</td>
       <td>
-       <Link href={`/videos/preview/${encodeURIComponent(video)}`}>
-         <button className="button">Preview Video</button>
-       </Link>
+        <Link href={`/videos/preview/${encodeURIComponent(video)}`}>
+          <button className="button">Preview Video</button>
+        </Link>
       </td>
     </tr>
   ));
-  
+
   return (
     <div className="video-container">
       <div className="instructions">
@@ -60,13 +59,9 @@ function page() {
           </tr>
         </thead>
 
-        <tbody>
-          {videoList}
-        </tbody>
+        <tbody>{videoList}</tbody>
       </table>
     </div>
   );
 }
 //list of all videos in the directory, and a link to preview page of that video
-
-export default page;
