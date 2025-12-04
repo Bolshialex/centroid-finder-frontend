@@ -16,6 +16,7 @@ export async function getVideos() {
 }
 
 export async function getThumbnail(video) {
+  console.log(video);
   try {
     const res = await axios.get(`${API_URL}/thumbnail/${video}`, {
       responseType: "blob",

@@ -8,7 +8,7 @@ import { FaArrowRight } from "react-icons/fa";
 export default function Page({ params }) {
   const router = useRouter();
   const video = decodeURIComponent(use(params).id);
-  const videoName = video.split("/")[2];
+
   const [thumbnail, setThumbnail] = useState(null);
 
   const [args, setArgs] = useState({ color: "#ffffff", threshold: 150 });
@@ -16,7 +16,7 @@ export default function Page({ params }) {
 
   useEffect(() => {
     const loadThumbnail = async () => {
-      const url = await getThumbnail(videoName);
+      const url = await getThumbnail(video);
       setThumbnail(url);
     };
     loadThumbnail();
@@ -122,10 +122,10 @@ export default function Page({ params }) {
       const hexColor = args.color.replace("#", "");
       const threshold = args.threshold;
       console.log(
-        `Starting process for ${videoName} with color ${hexColor} and threshold ${threshold}`
+        `Starting process for ${video} with color ${hexColor} and threshold ${threshold}`
       );
 
-      const response = await startProcess(videoName, hexColor, threshold);
+      const response = await startProcess(video, hexColor, threshold);
       console.log("Process response:", response);
 
       if (response && response.jobId) {
@@ -150,7 +150,7 @@ export default function Page({ params }) {
           <img
             className="thumbnail"
             src={thumbnail}
-            alt={`${videoName} thumbnail`}
+            alt={`${video} thumbnail`}
           />
         </div>
         <div>
