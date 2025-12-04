@@ -25,10 +25,10 @@ export default function Page({ params }) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result
       ? {
-          r: parseInt(result[1], 16),
-          g: parseInt(result[2], 16),
-          b: parseInt(result[3], 16),
-        }
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16),
+      }
       : null;
   };
 
@@ -70,8 +70,8 @@ export default function Page({ params }) {
         // Calculate Euclidean distance
         const distance = Math.sqrt(
           Math.pow(r - targetColor.r, 2) +
-            Math.pow(g - targetColor.g, 2) +
-            Math.pow(b - targetColor.b, 2)
+          Math.pow(g - targetColor.g, 2) +
+          Math.pow(b - targetColor.b, 2)
         );
 
         if (distance <= threshold) {
@@ -144,21 +144,23 @@ export default function Page({ params }) {
   return (
     <div className="preview-container">
       <h1>Preview and Options</h1>
-      <div className="img-container">
-        <div>
-          <h3>Basic</h3>
-          <img
-            className="thumbnail"
-            src={thumbnail}
-            alt={`${videoName} thumbnail`}
-          />
-        </div>
-        <div>
-          <h3>Binarized</h3>
-          <canvas className="thumbnail" ref={canvasRef} />
-        </div>
-      </div>
+      {thumbnail && (
+        <div className="img-container">
 
+          <div>
+            <h3>Basic</h3>
+            <img
+              className="thumbnail"
+              src={thumbnail}
+              alt={`${videoName} thumbnail`}
+            />
+          </div>
+          <div>
+            <h3>Binarized</h3>
+            <canvas className="thumbnail" ref={canvasRef} />
+          </div>
+        </div>
+      )}
       <form className="preview-form">
         <div className="input-container">
           <div className="input-sub-container">
