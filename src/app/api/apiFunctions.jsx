@@ -60,3 +60,15 @@ export async function getStatus(id) {
     throw error;
   }
 }
+
+export async function getCsv(id) {
+  try {
+    const res = await axios.get(`${API_URL}/results/${id}`, {
+      responseType: "blob",
+    });
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching File:", error);
+    throw error;
+  }
+}

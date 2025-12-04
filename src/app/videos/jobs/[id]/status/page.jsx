@@ -1,12 +1,30 @@
 "use client";
-import Link from "next/link"; 
+import Link from "next/link";
 import { use, useEffect, useState } from "react";
-import { getStatus } from "../../../../api/apiFunctions";
+import { getStatus, getCsv } from "../../../../api/apiFunctions";
 
 export default function StatusPage({ params }) {
   const { id } = use(params);
   const [status, setStatus] = useState(null);
   const [error, setError] = useState(null);
+
+  const downloadCsv = async () => {
+    try {
+      const blob = await getCsv(id);
+
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = status.result || `result-${id}.csv`;
+      a.click();
+
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Error downloading CSV:", err);
+      setError("Failed to download CSV.");
+    }
+  };
 
   useEffect(() => {
     const fetchStatus = async () => {
@@ -30,30 +48,33 @@ export default function StatusPage({ params }) {
   return (
     <div>
       <h1>Job Status</h1>
-      <p>Job ID: <strong>{id}</strong></p>
-      
+      <p>
+        Job ID: <strong>{id}</strong>
+      </p>
+
       {status && !status.result && <p>Processing...</p>}
-      {error && <p>{error.message}</p>}
-      
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
       {status && (
         <div>
           <p>
-            Status: <span>
-              {status.status || "Unknown"}
-            </span>
+            Status: <span>{status.status || "Unknown"}</span>
           </p>
+
           {status.status === "done" && status.result && (
+            <>
               <p>Result: {status.result}</p>
+              <button onClick={downloadCsv}>Download CSV</button>
+            </>
           )}
+
           {status.status === "error" && status.error && (
-              <p>Error: {status.error}</p>
+            <p>Error: {status.error}</p>
           )}
         </div>
       )}
-      
-      <Link href="/videos">
-        Back to Videos
-      </Link>
+
+      <Link href="/videos">Back to Videos</Link>
     </div>
   );
 }

@@ -65,7 +65,7 @@ p {
   box-shadow: var(--shadow);
   width: 90%;
   max-width: 1000px;
-  height: 720px;
+
   min-height: 720px;
   margin-top: 60px;
   padding: 50px;
