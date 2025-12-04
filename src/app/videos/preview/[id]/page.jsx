@@ -7,8 +7,8 @@ import { FaArrowRight } from "react-icons/fa";
 
 export default function Page({ params }) {
   const router = useRouter();
-  const videoName = decodeURIComponent(use(params).id);
-
+  const video = decodeURIComponent(use(params).id);
+  const videoName = video.split("/")[2];
   const [thumbnail, setThumbnail] = useState(null);
 
   const [args, setArgs] = useState({ color: "#ffffff", threshold: 150 });

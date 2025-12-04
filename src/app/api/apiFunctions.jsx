@@ -16,9 +16,8 @@ export async function getVideos() {
 }
 
 export async function getThumbnail(video) {
-  const videoName = video.split("/");
   try {
-    const res = await axios.get(`${API_URL}/thumbnail/${videoName[2]}`, {
+    const res = await axios.get(`${API_URL}/thumbnail/${video}`, {
       responseType: "blob",
     });
 
