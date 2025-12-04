@@ -21,7 +21,7 @@ export default function Page() {
 
   const videoList = videos.map((video, index) => (
     <tr key={index}>
-      <td>{video.split("/")[2]}</td>
+      <td>{video}</td>
       <td>
         <Link href={`/videos/preview/${encodeURIComponent(video)}`}>
           <button className="button">Preview Video</button>
