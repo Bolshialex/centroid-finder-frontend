@@ -93,7 +93,13 @@ export default function Page({ params }) {
       //draw centroid
       const centroid = getCentroid(data, canvas.width, canvas.height);
       if (centroid) {
-        //------------------------------------------------------draw jpg
+//-------------------------------------------------------draw emoji
+        context.font = "40px Arial"; 
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+        // You can paste any emoji here: 🎯, 📍, ❌, 🤖
+        context.fillText("🦎", centroid.x, centroid.y);
+//-------------------------------------------------------draw jpg
         // const salamanderIcon = new Image();
         // salamanderIcon.src = "/sal.jpg"; // Must be in your public folder
         
@@ -109,13 +115,8 @@ export default function Page({ params }) {
         //         iconSize
         //     )
         //   }
-//-------------------------------------------------------draw emoji
-    context.font = "40px Arial"; 
-    context.textAlign = "center";
-    context.textBaseline = "middle";
-    // You can paste any emoji here: 🎯, 📍, ❌, 🤖
-    context.fillText("🦎", centroid.x, centroid.y);
-//-------------------------------------------------------red circle with crosshair
+
+//-------------------------------------------------------draw red circle with crosshair
         // const radius = 15;
         // context.beginPath();
         // context.strokeStyle = "red"; 
@@ -127,7 +128,7 @@ export default function Page({ params }) {
         // context.moveTo(centroid.x, centroid.y - radius + gap);
         // context.lineTo(centroid.x, centroid.y + radius - gap);
         // context.stroke();
-//-------------------------------------------------------a red dot
+//-------------------------------------------------------draw a red dot
         // context.beginPath();
         // context.arc(centroid.x, centroid.y, 5, 0, Math.PI * 2);
         // context.fillStyle = "red";
