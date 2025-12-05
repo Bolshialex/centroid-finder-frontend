@@ -7,7 +7,7 @@ export default function StatusPage({ params }) {
   const { id } = use(params);
   const [status, setStatus] = useState(null);
   const [error, setError] = useState(null);
-
+  const isProcessing = !status || (status.status !== "done" && status.status !== "error");
   const downloadCsv = async () => {
     try {
       const blob = await getCsv(id);
@@ -46,13 +46,17 @@ export default function StatusPage({ params }) {
   }, [id]);
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
       <h1>Job Status</h1>
+      
+      {status && !status.result && (
+        <>
+          <img style={{ width: '50%', height: '27%', borderRadius: '60%'}} src="/salamander.gif" alt="Loading" />
+        </>
+      )}
       <p>
         Job ID: <strong>{id}</strong>
       </p>
-
-      {status && !status.result && <p>Processing...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       {status && (
