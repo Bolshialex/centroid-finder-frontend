@@ -1,9 +1,9 @@
 "use client";
-import Link from "next/link";
+import {FaArrowRight} from "react-icons/fa";
 import { useEffect, useState, useRef, use } from "react";
 import { getThumbnail, startProcess } from "../../../api/apiFunctions";
 import { useRouter } from "next/navigation";
-import { FaArrowRight } from "react-icons/fa";
+import getCentroid from "./centroid"
 
 export default function Page({ params }) {
   const router = useRouter();
@@ -46,14 +46,14 @@ export default function Page({ params }) {
       const canvas = canvasRef.current;
       const context = canvas.getContext("2d");
 
-      // Set canvas dimensions to match image
+      //set canvas dimensions to match image
       canvas.width = img.width;
       canvas.height = img.height;
 
-      // Draw original image
+      //draw original image
       context.drawImage(img, 0, 0);
 
-      // Get image data
+      //get image data
       const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
       const data = imageData.data;
 
@@ -75,20 +75,65 @@ export default function Page({ params }) {
         );
 
         if (distance <= threshold) {
-          // White
+          //white
           data[i] = 255;
           data[i + 1] = 255;
           data[i + 2] = 255;
         } else {
-          // Black
+          //black
           data[i] = 0;
           data[i + 1] = 0;
           data[i + 2] = 0;
         }
       }
 
-      // Put processed data back
+      // put processed data back
       context.putImageData(imageData, 0, 0);
+
+      //draw centroid
+      const centroid = getCentroid(data, canvas.width, canvas.height);
+      if (centroid) {
+        //-------------------------------------------------------draw jpg
+        // const salamanderIcon = new Image();
+        // salamanderIcon.src = "/sal.jpg"; // Must be in your public folder
+        
+        // // We must wait for the icon to load before drawing
+        // salamanderIcon.onload = () => {
+        //     const iconSize = 30; 
+        //     // Draw image centered: (x - halfWidth, y - halfHeight)
+        //     context.drawImage(
+        //         salamanderIcon, 
+        //         centroid.x - (iconSize / 2), 
+        //         centroid.y - (iconSize / 2), 
+        //         iconSize, 
+        //         iconSize
+        //     )
+        //   }
+//-------------------------------------------------------draw emoji
+    context.font = "40px Arial"; 
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    // You can paste any emoji here: 🎯, 📍, ❌, 🤖
+    context.fillText("🦎", centroid.x, centroid.y);
+//-------------------------------------------------------red circle with crosshair
+        // const radius = 15;
+        // context.beginPath();
+        // context.strokeStyle = "red"; 
+        // context.lineWidth = 3;
+        // context.arc(centroid.x, centroid.y, radius, 0, Math.PI * 2);
+        // const gap = 5;
+        // context.moveTo(centroid.x - radius + gap, centroid.y);
+        // context.lineTo(centroid.x + radius - gap, centroid.y);
+        // context.moveTo(centroid.x, centroid.y - radius + gap);
+        // context.lineTo(centroid.x, centroid.y + radius - gap);
+        // context.stroke();
+//-------------------------------------------------------a red dot
+        // context.beginPath();
+        // context.arc(centroid.x, centroid.y, 5, 0, Math.PI * 2);
+        // context.fillStyle = "red";
+        // context.fill();
+        // context.closePath();
+      }
     };
   }, [thumbnail, args]);
   const handleEyeDropper = async () => {
@@ -96,7 +141,7 @@ export default function Page({ params }) {
       alert("Your browser does not support the EyeDropper API.");
       return;
     }
-
+    
     const eyeDropper = new EyeDropper();
     try {
       const result = await eyeDropper.open();
