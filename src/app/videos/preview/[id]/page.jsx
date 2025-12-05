@@ -93,7 +93,7 @@ export default function Page({ params }) {
       //draw centroid
       const centroid = getCentroid(data, canvas.width, canvas.height);
       if (centroid) {
-        //-------------------------------------------------------draw jpg
+        //------------------------------------------------------draw jpg
         // const salamanderIcon = new Image();
         // salamanderIcon.src = "/sal.jpg"; // Must be in your public folder
         
