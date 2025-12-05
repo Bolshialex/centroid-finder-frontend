@@ -193,15 +193,15 @@ export default function Page({ params }) {
       <div className="img-container">
         <div>
           <h3>Basic</h3>
-          <img
+          {thumbnail && <img
             className="thumbnail"
             src={thumbnail}
             alt={`${video} thumbnail`}
-          />
+          />}
         </div>
         <div>
           <h3>Binarized</h3>
-          <canvas className="thumbnail" ref={canvasRef} />
+          {thumbnail && <canvas className="thumbnail" ref={canvasRef} />}
         </div>
       </div>
 
